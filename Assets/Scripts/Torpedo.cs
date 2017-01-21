@@ -11,6 +11,7 @@ public class Torpedo : MonoBehaviour {
 
     private Rigidbody2D _rigidBody = null;
     private SpriteRenderer _sprite = null;
+    private BoxCollider2D _bBox = null;
 
     public void Fire(Vector3 direction, Vector3 position)
     {
@@ -26,26 +27,41 @@ public class Torpedo : MonoBehaviour {
 	void Awake () {
         _rigidBody = GetComponent<Rigidbody2D>();
         _sprite = GetComponent<SpriteRenderer>();
+        _bBox = GetComponent<BoxCollider2D>();
 	}
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if(collider.CompareTag(TargetTag))
         {
-            _rigidBody.velocity = Vector2.zero;
+            Health health = collider.GetComponent<Health>();
 
-            if (ExplosionParticles != null)
-                ExplosionParticles.Play();
+            if (health != null)
+            {
+                health.TakeDamage();
+            }
 
-            StopAllCoroutines();
-            
-            StartCoroutine(DisableAfterParticles());
+            Explode();
         }
     }
 
     private void OnEnable()
     {
         _sprite.enabled = true;
+        _bBox.enabled = true;
+    }
+
+    private void Explode()
+    {
+        _bBox.enabled = false;
+        _rigidBody.velocity = Vector2.zero;
+
+        if (ExplosionParticles != null)
+            ExplosionParticles.Play();
+
+        StopAllCoroutines();
+
+        StartCoroutine(DisableAfterParticles());
     }
 
     #region Coroutines
@@ -53,7 +69,7 @@ public class Torpedo : MonoBehaviour {
     private IEnumerator DeactivateAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
-        gameObject.SetActive(false);
+        Explode();
     }
 
     private IEnumerator DisableAfterParticles()

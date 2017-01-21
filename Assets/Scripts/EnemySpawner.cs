@@ -20,7 +20,9 @@ public class EnemySpawner : MonoBehaviour {
             GameObject enemy = EnemyPool.GetObject(true);
 
             enemy.transform.position = new Vector3(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
-            enemy.transform.rotation = Quaternion.AngleAxis(Random.Range(0, 360), -Vector3.back);
+
+            SpriteRenderer sprite = enemy.GetComponentInChildren<SpriteRenderer>();
+            sprite.transform.rotation = Quaternion.AngleAxis(Random.Range(0, 360), -Vector3.back);
 
             WeaponSlot[] weapons = enemy.GetComponentsInChildren<WeaponSlot>();
 

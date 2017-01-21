@@ -7,6 +7,7 @@ public class EnemyMovement : MonoBehaviour
     public float Speed = 10f;
     public float MinChangeTime = 2f;
     public float MaxChangeTime = 5f;
+    public SpriteRenderer Sprite;
 
     private Vector2 _direction = Vector2.zero;
     private Vector3? _target = null;
@@ -41,15 +42,19 @@ public class EnemyMovement : MonoBehaviour
     public void FaceDirection(Vector2 direction)
     {
         float angle = MathUtil.Vector2ToAngle(direction);
-        transform.rotation = Quaternion.AngleAxis(angle - 90, -Vector3.back);
+        Sprite.transform.rotation = Quaternion.AngleAxis(angle - 90, -Vector3.back);
     }
 
     public void Stop()
     {
         _direction = Vector2.zero;
-        _rigidBody.velocity = Vector2.zero;
         _isMoving = false;
-        StopCoroutine(_wanderRoutine);
+
+        if (_rigidBody != null)
+            _rigidBody.velocity = Vector2.zero;
+        
+        if(_wanderRoutine != null)
+            StopCoroutine(_wanderRoutine);
     }
 
     private void Start()

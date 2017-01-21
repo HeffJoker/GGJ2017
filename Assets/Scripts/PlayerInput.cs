@@ -14,7 +14,7 @@ public class PlayerInput : MonoBehaviour {
     private int _currWeapon = 0;
     private float _currTime = 0;
     private InputDevice _device;
-    private float _prevAngle = 90f;
+    private Vector3 _prevDir = Vector3.right;
 
 
     void Awake()
@@ -32,12 +32,19 @@ public class PlayerInput : MonoBehaviour {
         Vector3 lookDir = _device.RightStick.Vector;
 
         if (lookDir != Vector3.zero)
+        {
             PlayerMovement.LookAt(lookDir);
+            _prevDir = lookDir;
+        }
+        else
+        {
+            lookDir = _prevDir;
+        }
 
         if(_device.RightTrigger.IsPressed && _currTime <= 0)
         {
             WeaponSlot currWeapon = Weapons[_currWeapon];
-            currWeapon.Fire(lookDir);
+            currWeapon.Fire(lookDir.normalized);
 
             ++_currWeapon;
 
@@ -53,6 +60,10 @@ public class PlayerInput : MonoBehaviour {
         }
         else
             Echo.SetBool("DoEcho", false);
+
+        if (_device.CommandWasPressed)
+            GameStateManager.Instance.Pause();
+
         _currTime -= Time.deltaTime;
 
         /*

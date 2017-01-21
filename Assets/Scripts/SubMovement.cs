@@ -7,10 +7,12 @@ public class SubMovement : MonoBehaviour {
 
     public float Speed = 5;
     public float RotOffset = 90f;
+    public SpriteRenderer Sprite = null;
 
     private bool _rotating = false;
     private Vector3 _lookDir = new Vector3(0, 0, 0);
     private Rigidbody2D _rigidBody = null;
+
 
     public void Move(Vector3 dir)
     {
@@ -30,6 +32,6 @@ public class SubMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         float angle = MathUtil.Vector2ToAngle(_lookDir);
-        transform.rotation = Quaternion.AngleAxis(angle + RotOffset, -Vector3.back);
+        Sprite.gameObject.transform.rotation = Quaternion.AngleAxis(angle + RotOffset, -Vector3.back);
 	}
 }
