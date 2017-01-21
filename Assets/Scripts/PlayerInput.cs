@@ -9,7 +9,8 @@ public class PlayerInput : MonoBehaviour {
     public WeaponSlot[] Weapons;
     public float AngleDeviation = 5f;
     public float DebounceTime = 0.5f;
-    
+    public Animator Echo;
+
     private int _currWeapon = 0;
     private float _currTime = 0;
     private InputDevice _device;
@@ -46,6 +47,12 @@ public class PlayerInput : MonoBehaviour {
             _currTime = DebounceTime;
         }
 
+        if (_device.LeftTrigger.IsPressed && _currTime <= 0)
+        {
+            Echo.SetBool("DoEcho", true);
+        }
+        else
+            Echo.SetBool("DoEcho", false);
         _currTime -= Time.deltaTime;
 
         /*
