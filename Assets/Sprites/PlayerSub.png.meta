@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8fbfaeb7b1e2ecb4b92bea854122d419
-timeCreated: 1485013901
+timeCreated: 1485028963
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -74,12 +74,12 @@ TextureImporter:
       name: PlayerSub_0
       rect:
         serializedVersion: 2
-        x: 179
-        y: 56
-        width: 268
-        height: 454
+        x: 185
+        y: 58
+        width: 254
+        height: 452
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
