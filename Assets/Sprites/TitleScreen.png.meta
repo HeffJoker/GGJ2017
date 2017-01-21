@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8fbfaeb7b1e2ecb4b92bea854122d419
-timeCreated: 1485013901
+guid: 835ecd42657ffa5409759b81c85f53c0
+timeCreated: 1485013846
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: PlayerSub_0
+    21300000: TitleScreen_0
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -71,16 +71,16 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerSub_0
+      name: TitleScreen_0
       rect:
         serializedVersion: 2
-        x: 179
-        y: 56
-        width: 268
-        height: 454
+        x: 0
+        y: 85
+        width: 640
+        height: 485
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 1, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     outline: []
