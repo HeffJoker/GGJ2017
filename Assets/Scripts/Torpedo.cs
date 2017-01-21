@@ -7,6 +7,7 @@ public class Torpedo : MonoBehaviour {
     public float Speed = 100f;
     public float TimeToLive = 2f;
     public ParticleSystem ExplosionParticles;
+    public string TargetTag;
 
     private Rigidbody2D _rigidBody = null;
     private SpriteRenderer _sprite = null;
@@ -29,7 +30,7 @@ public class Torpedo : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.CompareTag("enemy"))
+        if(collider.CompareTag(TargetTag))
         {
             _rigidBody.velocity = Vector2.zero;
 

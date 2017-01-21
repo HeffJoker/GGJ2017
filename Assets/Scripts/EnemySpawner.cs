@@ -10,6 +10,7 @@ public class EnemySpawner : MonoBehaviour {
     public float MinY = -100;
 
     public ObjectPool EnemyPool;
+    public ObjectPool TorpedoPool;
     public int NumEnemies = 5;
 
     public void SpawnEnemies()
@@ -20,6 +21,11 @@ public class EnemySpawner : MonoBehaviour {
 
             enemy.transform.position = new Vector3(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
             enemy.transform.rotation = Quaternion.AngleAxis(Random.Range(0, 360), -Vector3.back);
+
+            WeaponSlot[] weapons = enemy.GetComponentsInChildren<WeaponSlot>();
+
+            foreach (WeaponSlot slot in weapons)
+                slot.ProjectilePool = TorpedoPool;
         }
     }
 
