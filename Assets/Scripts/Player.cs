@@ -8,4 +8,13 @@ public class Player : MonoBehaviour {
     {
         GameStateManager.Instance.GameOver();
     }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.CompareTag("kamikazee"))
+        {
+            Health health = GetComponent<Health>();
+            health.TakeDamage();
+        }
+    }
 }

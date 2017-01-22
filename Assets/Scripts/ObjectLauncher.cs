@@ -8,7 +8,7 @@ public class ObjectLauncher : MonoBehaviour {
     public ObjectPool ObjectPool;
     public float LaunchSpeed;
 
-    public void Launch()
+    public GameObject Launch()
     {
         GameObject obj = ObjectPool.GetObject(true);
         obj.transform.position = transform.position;
@@ -17,6 +17,8 @@ public class ObjectLauncher : MonoBehaviour {
         Vector3 dir = Quaternion.AngleAxis(transform.parent.rotation.eulerAngles.z, -Vector3.back) * Direction;
 
         body.AddForce(dir * LaunchSpeed);
+
+        return obj;
     }
 	
     private void OnDrawGizmos()

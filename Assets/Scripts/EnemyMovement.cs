@@ -9,6 +9,7 @@ public class EnemyMovement : MonoBehaviour
     public float MaxChangeTime = 5f;
     public float RotOffset = -90;
     public SpriteRenderer Sprite;
+    public bool DoRotate = true;
     
     public float MaxMoveRadius = 10f;
 
@@ -21,11 +22,6 @@ public class EnemyMovement : MonoBehaviour
     public bool AtTarget
     {
         get; private set;
-    }
-
-    public bool DoRotate
-    {
-        get; set;
     }
 
     public void MoveTo(Vector3 position)

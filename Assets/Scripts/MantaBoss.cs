@@ -84,6 +84,9 @@ public class MantaBoss : MonoBehaviour {
         _move.Stop();
         _move.DoRotate = false;
         _move.FaceDirection((Player.transform.position - transform.position).normalized);
-        UnitLauncher.Launch();
+        GameObject obj = UnitLauncher.Launch();
+
+        Kamikazee km = obj.GetComponent<Kamikazee>();
+        km.SetTarget(Player);
     }
 }
