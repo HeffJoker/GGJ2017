@@ -9,10 +9,12 @@ public class Torpedo : MonoBehaviour {
     public ParticleSystem ExplosionParticles;
     public string TargetTag;
     public string TargetTag2;
+    
 
     private Rigidbody2D _rigidBody = null;
     private SpriteRenderer _sprite = null;
     private BoxCollider2D _bBox = null;
+    private AudioSource _audio = null;
 
     public void Fire(Vector3 direction, Vector3 position)
     {
@@ -29,6 +31,7 @@ public class Torpedo : MonoBehaviour {
         _rigidBody = GetComponent<Rigidbody2D>();
         _sprite = GetComponent<SpriteRenderer>();
         _bBox = GetComponent<BoxCollider2D>();
+        _audio = GetComponentInChildren<AudioSource>();
 	}
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -54,6 +57,9 @@ public class Torpedo : MonoBehaviour {
 
     private void Explode()
     {
+        if (_audio != null)
+            _audio.Play();
+
         _bBox.enabled = false;
         _rigidBody.velocity = Vector2.zero;
 

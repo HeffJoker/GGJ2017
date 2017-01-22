@@ -10,12 +10,13 @@ public class Health : MonoBehaviour {
     public SpriteRenderer Sprite;
     public ParticleSystem ExplodeParticles;
     public GameObject ObjectToDisable;
+    public AudioSource ExplodeSound;
 
     private int _currHealth = 0;
     private EchoIndicator _indicator;
     private Slider _slider;
     private bool _isDead = false;
-
+   
 	// Use this for initialization
 	void Awake () {
         _indicator = GetComponentInChildren<EchoIndicator>();
@@ -76,6 +77,9 @@ public class Health : MonoBehaviour {
 
         if (gameObject.tag == "enemy")
             EnemyCountManager.Instance.Decrement();
+
+        if (ExplodeSound != null)
+            ExplodeSound.Play();
 
         if (ExplodeParticles != null)
         {

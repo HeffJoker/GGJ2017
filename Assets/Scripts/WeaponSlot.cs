@@ -5,12 +5,15 @@ using UnityEngine;
 public class WeaponSlot : MonoBehaviour {
 
     public ObjectPool ProjectilePool;
-
+    public AudioSource Audio;
 
     public void Fire(Vector3 direction)
     {
         GameObject obj = ProjectilePool.GetObject(true);
         Torpedo torpedo = obj.GetComponent<Torpedo>();
+
+        if (Audio != null)
+            Audio.Play();
 
         torpedo.Fire(direction, transform.position);
     }

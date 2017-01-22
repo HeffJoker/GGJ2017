@@ -10,9 +10,11 @@ public class PlayerInput : MonoBehaviour {
     public float AngleDeviation = 5f;
     public float DebounceTime = 0.5f;
     public Animator Echo;
+    public AudioSource EchoSound;
 
     private int _currWeapon = 0;
     private float _currTime = 0;
+    private float _echoTime = 0;
     private InputDevice _device;
     private Vector3 _prevDir = Vector3.right;
 
@@ -54,9 +56,14 @@ public class PlayerInput : MonoBehaviour {
             _currTime = DebounceTime;
         }
 
-        if (_device.LeftTrigger.IsPressed && _currTime <= 0)
+        if (_device.LeftTrigger.IsPressed && _echoTime <= 0)
         {
+            if (EchoSound != null && !EchoSound.isPlaying)
+                EchoSound.Play();
+
             Echo.SetBool("DoEcho", true);
+
+            _echoTime = DebounceTime;
         }
         else
             Echo.SetBool("DoEcho", false);
@@ -65,6 +72,7 @@ public class PlayerInput : MonoBehaviour {
             GameStateManager.Instance.Pause();
 
         _currTime -= Time.deltaTime;
+        _echoTime -= Time.deltaTime;
 
         /*
         if(Input.GetMouseButtonUp(0))

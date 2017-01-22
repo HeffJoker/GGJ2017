@@ -9,17 +9,22 @@ public class GameStateManager : SingletonBase<GameStateManager> {
     public Canvas GameOverScreen;
     public Canvas PlayScreen;
     public Canvas WinScreen;
+    public Canvas TitleScreen;
+
+    public AudioSource Song;
 
     public void Pause()
     {
         PauseScreen.enabled = true;
         Time.timeScale = 0;
+        Song.Pause();
     }
 
     public void UnPause()
     {
         PauseScreen.enabled = false;
         Time.timeScale = 1;
+        Song.UnPause();
     }
 
     public void QuitGame()
@@ -31,18 +36,22 @@ public class GameStateManager : SingletonBase<GameStateManager> {
     {
         PlayScreen.enabled = false;
         GameOverScreen.enabled = true;
+        Song.Stop();
     }
 
     public void Restart()
     {
+        TitleScreen.enabled = false;
         PlayScreen.enabled = true;
         GameOverScreen.enabled = false;
+        Song.Play();
     }
     
     public void Win()
     {
         PlayScreen.enabled = false;
         WinScreen.enabled = true;
+        Song.Stop();
     }
 
     public void LoadScene_Single(string sceneToChange)
