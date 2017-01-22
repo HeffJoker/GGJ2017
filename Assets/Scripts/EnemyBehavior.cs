@@ -11,14 +11,20 @@ public class EnemyBehavior : MonoBehaviour {
     public float WaitTime = 2f;
     public float DebounceTime = 1f;
 
+    public float ShowShipTime = 2f;
+    public float HideShipTime = 1f;
+    public float WaitToHide = 5f;
+
     public WeaponSlot[] Weapons;
     public EnemyMovement Move;
+    public SpriteRenderer MainSprite;
 
     private EnemyEcho _echo;
-
+    private bool _showing = false;
 
     private bool _foundPlayer = false;
     private Coroutine _waitRoutine;
+    private Coroutine _showRoutine;
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +32,7 @@ public class EnemyBehavior : MonoBehaviour {
         _echo = GetComponentInChildren<EnemyEcho>();
         //_weapons = GetComponentsInChildren<WeaponSlot>();
 
+        MainSprite.color = Color.black;
         _waitRoutine = StartCoroutine(DoWait());
 	}
 
@@ -110,5 +117,41 @@ public class EnemyBehavior : MonoBehaviour {
         yield return new WaitForSeconds(WaitTime);
 
         DoEcho();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.CompareTag("echo") && !_showing)
+        {
+            if (_showRoutine != null)
+                StopCoroutine(_showRoutine);
+
+            _showRoutine = StartCoroutine(ShowSprite());
+        }
+    }
+
+    private IEnumerator ShowSprite()
+    {
+        _showing = true;
+        float currTime = 0;
+        
+        while(currTime <= ShowShipTime)
+        {
+            MainSprite.color = Color.Lerp(Color.black, Color.white, currTime / ShowShipTime);
+            currTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(WaitToHide);
+        _showing = false;
+        currTime = 0;
+        while(currTime <= HideShipTime)
+        {
+            MainSprite.color = Color.Lerp(Color.white, Color.black, currTime / HideShipTime);
+            currTime += Time.deltaTime;
+
+            yield return null;
+        }
     }
 }
