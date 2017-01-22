@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour {
     public float MaxY = 100;
     public float MinX = -100;
     public float MinY = -100;
+    public bool IsEnemy = true;
 
     public ObjectPool EnemyPool;
     public ObjectPool TorpedoPool;
@@ -24,13 +25,18 @@ public class EnemySpawner : MonoBehaviour {
             SpriteRenderer sprite = enemy.GetComponentInChildren<SpriteRenderer>();
             sprite.transform.rotation = Quaternion.AngleAxis(Random.Range(0, 360), -Vector3.back);
 
-            WeaponSlot[] weapons = enemy.GetComponentsInChildren<WeaponSlot>();
 
-            foreach (WeaponSlot slot in weapons)
-                slot.ProjectilePool = TorpedoPool;
+            if (IsEnemy)
+            {
+                WeaponSlot[] weapons = enemy.GetComponentsInChildren<WeaponSlot>();
+
+                foreach (WeaponSlot slot in weapons)
+                    slot.ProjectilePool = TorpedoPool;
+            }
         }
 
-        EnemyCountManager.Instance.SetCount(NumEnemies);
+        if(IsEnemy)
+            EnemyCountManager.Instance.SetCount(NumEnemies);
     }
 
     public void ClearEnemies()
