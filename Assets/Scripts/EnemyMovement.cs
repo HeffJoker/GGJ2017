@@ -7,6 +7,7 @@ public class EnemyMovement : MonoBehaviour
     public float Speed = 10f;
     public float MinChangeTime = 2f;
     public float MaxChangeTime = 5f;
+    public float RotOffset = -90;
     public SpriteRenderer Sprite;
     
     public float MaxMoveRadius = 10f;
@@ -44,7 +45,7 @@ public class EnemyMovement : MonoBehaviour
     public void FaceDirection(Vector2 direction)
     {
         float angle = MathUtil.Vector2ToAngle(direction);
-        Sprite.transform.rotation = Quaternion.AngleAxis(angle - 90, -Vector3.back);
+        Sprite.transform.rotation = Quaternion.AngleAxis(angle + RotOffset, -Vector3.back);
     }
 
     public void Stop()

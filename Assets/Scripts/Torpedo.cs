@@ -8,6 +8,7 @@ public class Torpedo : MonoBehaviour {
     public float TimeToLive = 2f;
     public ParticleSystem ExplosionParticles;
     public string TargetTag;
+    public string TargetTag2;
 
     private Rigidbody2D _rigidBody = null;
     private SpriteRenderer _sprite = null;
@@ -32,7 +33,7 @@ public class Torpedo : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.CompareTag(TargetTag))
+        if(collider.CompareTag(TargetTag) || (!string.IsNullOrEmpty(TargetTag2) && collider.CompareTag(TargetTag2)))
         {
             Health health = collider.GetComponent<Health>();
 

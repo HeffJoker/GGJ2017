@@ -9,6 +9,7 @@ public class Health : MonoBehaviour {
     public float SliderHideTime = 1f;
     public SpriteRenderer Sprite;
     public ParticleSystem ExplodeParticles;
+    public GameObject ObjectToDisable;
 
     private int _currHealth = 0;
     private EchoIndicator _indicator;
@@ -82,7 +83,11 @@ public class Health : MonoBehaviour {
             StartCoroutine(DisableAfterParticles(ExplodeParticles));
         }
         else
+        {
             gameObject.SetActive(false);
+            if (ObjectToDisable != null)
+                ObjectToDisable.SetActive(false);
+        }
     }
 
     private IEnumerator DisableAfterParticles(ParticleSystem particles)
@@ -94,5 +99,8 @@ public class Health : MonoBehaviour {
         //    yield return null;
 
         gameObject.SetActive(false);
+
+        if (ObjectToDisable != null)
+            ObjectToDisable.SetActive(false);
     }
 }
