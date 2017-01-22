@@ -29,6 +29,8 @@ public class EnemySpawner : MonoBehaviour {
             foreach (WeaponSlot slot in weapons)
                 slot.ProjectilePool = TorpedoPool;
         }
+
+        EnemyCountManager.Instance.SetCount(NumEnemies);
     }
 
     public void ClearEnemies()

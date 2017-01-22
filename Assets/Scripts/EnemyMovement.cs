@@ -8,6 +8,8 @@ public class EnemyMovement : MonoBehaviour
     public float MinChangeTime = 2f;
     public float MaxChangeTime = 5f;
     public SpriteRenderer Sprite;
+    
+    public float MaxMoveRadius = 10f;
 
     private Vector2 _direction = Vector2.zero;
     private Vector3? _target = null;
@@ -91,10 +93,16 @@ public class EnemyMovement : MonoBehaviour
 
         while (_isMoving)
         {
-            _direction = Random.insideUnitCircle;
-
             float waitTime = Random.Range(MinChangeTime, MaxChangeTime);
 
+            if (OutsideMaxRange())
+            {
+                _direction = Vector3.zero - transform.position;
+                waitTime *= 2f;
+            }
+            else
+                _direction = Random.insideUnitCircle;
+                        
             yield return new WaitForSeconds(waitTime);
 
             Deccelerate();
@@ -104,5 +112,17 @@ public class EnemyMovement : MonoBehaviour
     private void Deccelerate()
     {
 
+    }
+
+    private bool OutsideMaxRange()
+    {
+        return (Vector3.Distance(Vector3.zero, transform.position) >= MaxMoveRadius);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawWireSphere(Vector3.zero, MaxMoveRadius);
     }
 }

@@ -32,6 +32,12 @@ public class GameStateManager : SingletonBase<GameStateManager> {
         PlayScreen.enabled = false;
         GameOverScreen.enabled = true;
     }
+
+    public void Restart()
+    {
+        PlayScreen.enabled = true;
+        GameOverScreen.enabled = false;
+    }
     
     public void Win()
     {
