@@ -15,23 +15,40 @@ public class PlayerInput : MonoBehaviour {
     private int _currWeapon = 0;
     private float _currTime = 0;
     private float _echoTime = 0;
-    private InputDevice _device;
+    private PlayerInputActions _input;
     private Vector3 _prevDir = Vector3.right;
+
+    private bool _useMouse = false;
 
 
     void Awake()
     {
-        //_device = InputManager.ActiveDevice;
+        _input = PlayerInputActions.CreateWithDefaultBindings();
     }
 
-	// Update is called once per frame
-	void Update () {
-        _device = InputManager.ActiveDevice;
+    // Update is called once per frame
+    void Update() {
 
-        if (_device.LeftStick.HasChanged)
-            PlayerMovement.Move(_device.LeftStick.Vector);
+        UseGamepad();
 
-        Vector3 lookDir = _device.RightStick.Vector;
+        _currTime -= Time.deltaTime;
+        _echoTime -= Time.deltaTime;
+    }
+
+    private void UseGamepad()
+    {
+        if (_input.Move.HasChanged)
+            PlayerMovement.Move(_input.Move.Vector);
+
+        Vector3 lookDir;
+        if (_input.ActiveDevice.IsAttached)
+        {
+            lookDir = _input.Aim.Vector;
+        }
+        else
+        {
+            lookDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        }
 
         if (lookDir != Vector3.zero)
         {
@@ -43,7 +60,7 @@ public class PlayerInput : MonoBehaviour {
             lookDir = _prevDir;
         }
 
-        if(_device.RightTrigger.IsPressed && _currTime <= 0)
+        if(_input.Fire.IsPressed && _currTime <= 0)
         {
             WeaponSlot currWeapon = Weapons[_currWeapon];
             currWeapon.Fire(lookDir.normalized);
@@ -56,7 +73,7 @@ public class PlayerInput : MonoBehaviour {
             _currTime = DebounceTime;
         }
 
-        if (_device.LeftTrigger.IsPressed && _echoTime <= 0)
+        if (_input.Sonar.IsPressed && _echoTime <= 0)
         {
             if (EchoSound != null && !EchoSound.isPlaying)
                 EchoSound.Play();
@@ -68,11 +85,9 @@ public class PlayerInput : MonoBehaviour {
         else
             Echo.SetBool("DoEcho", false);
 
-        if (_device.CommandWasPressed)
+        if (_input.Pause.WasPressed)
             GameStateManager.Instance.Pause();
 
-        _currTime -= Time.deltaTime;
-        _echoTime -= Time.deltaTime;
 
         /*
         if(Input.GetMouseButtonUp(0))
