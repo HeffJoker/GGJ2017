@@ -76,6 +76,11 @@ public class PlayerInputActions : PlayerActionSet
         playerActions.AimLeft.AddDefaultBinding(Mouse.NegativeX);
         playerActions.AimRight.AddDefaultBinding(Mouse.PositiveX);
 
+        playerActions.AimUp.AddDefaultBinding(InputControlType.RightStickUp);
+        playerActions.AimDown.AddDefaultBinding(InputControlType.RightStickDown);
+        playerActions.AimLeft.AddDefaultBinding(InputControlType.RightStickLeft);
+        playerActions.AimRight.AddDefaultBinding(InputControlType.RightStickRight);
+
         playerActions.ListenOptions.IncludeUnknownControllers = true;
         playerActions.ListenOptions.MaxAllowedBindings = 4;
         //playerActions.ListenOptions.MaxAllowedBindingsPerType = 1;

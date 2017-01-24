@@ -44,11 +44,19 @@ public class PlayerInput : MonoBehaviour {
         if (_input.ActiveDevice.IsAttached)
         {
             lookDir = _input.Aim.Vector;
+            lookDir.Normalize();
         }
         else
         {
             lookDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            lookDir.Normalize();
+            // bug fix since controller gives a larger vector
+            lookDir *= 2.5f;
         }
+
+        
+        Debug.Log("Look Dir = " + lookDir.ToString());
+        //Debug.Log("Normalize = " + lookDir.normalized.ToString());
 
         if (lookDir != Vector3.zero)
         {
@@ -63,7 +71,7 @@ public class PlayerInput : MonoBehaviour {
         if(_input.Fire.IsPressed && _currTime <= 0)
         {
             WeaponSlot currWeapon = Weapons[_currWeapon];
-            currWeapon.Fire(lookDir.normalized);
+            currWeapon.Fire(lookDir);
 
             ++_currWeapon;
 
